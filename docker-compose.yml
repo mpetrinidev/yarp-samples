@@ -22,7 +22,7 @@ services:
     restart: always
     
   api1:
-    container_name: reverseproxy_api1
+    container_name: api1
     depends_on:
       - nginx
       - reverseproxy
@@ -34,7 +34,7 @@ services:
     restart: always
     
   api2:
-    container_name: reverseproxy_api2
+    container_name: api2
     depends_on:
       - nginx
       - reverseproxy
@@ -46,7 +46,7 @@ services:
     restart: always
     
   api3:
-    container_name: reverseproxy_api3
+    container_name: api3
     depends_on:
       - nginx
       - reverseproxy
