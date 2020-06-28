@@ -8,12 +8,15 @@ services:
     ports:
     - "80:80"
     - "443:443"
+    depends_on:
+      - reverseproxy
+      - api1
+      - api2
+      - api3
     restart: always
     
   reverseproxy:
     container_name: reverseproxy
-    depends_on:
-      - nginx
     build:
       context: src/YarpSamples.ReverseProxy
       dockerfile: Dockerfile
@@ -23,36 +26,33 @@ services:
     
   api1:
     container_name: api1
-    depends_on:
-      - nginx
-      - reverseproxy
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:443
     expose:
       - "5001"
     restart: always
     
   api2:
     container_name: api2
-    depends_on:
-      - nginx
-      - reverseproxy
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:443
     expose:
       - "5002"
     restart: always
     
   api3:
     container_name: api3
-    depends_on:
-      - nginx
-      - reverseproxy
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:443
     expose:
       - "5003"
     restart: always
