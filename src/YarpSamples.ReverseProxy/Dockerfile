@@ -15,4 +15,8 @@ RUN dotnet publish "YarpSamples.ReverseProxy.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS http://*:5000
 ENTRYPOINT ["dotnet", "YarpSamples.ReverseProxy.dll"]
+
+#docker build -t yarpsamples-reverseproxy -f Dockerfile .
+#docker run -d -p 5000:5000 --name yarpsamples-reverseproxy yarpsamples-reverseproxy
