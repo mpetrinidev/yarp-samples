@@ -1,18 +1,18 @@
 version: "3.7"
 
 services:
-  nginx:
+  server:
     build:
       context: nginx
       dockerfile: Dockerfile
+    depends_on:
+      - reverseproxy
+      - app1
+      - app2
+      - app3
     ports:
     - "80:80"
     - "443:443"
-    depends_on:
-      - reverseproxy
-      - api1
-      - api2
-      - api3
     restart: always
     
   reverseproxy:
@@ -23,36 +23,36 @@ services:
     expose:
       - "5000"
     restart: always
-    
-  api1:
-    container_name: api1
+  
+  app1:
+    container_name: app1
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_URLS=http://+:443
+      - ASPNETCORE_URLS=http://*:5001
     expose:
       - "5001"
     restart: always
-    
-  api2:
-    container_name: api2
+
+  app2:
+    container_name: app2
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_URLS=http://+:443
+      - ASPNETCORE_URLS=http://*:5002
     expose:
       - "5002"
     restart: always
-    
-  api3:
-    container_name: api3
+
+  app3:
+    container_name: app3
     build:
       context: src/YarpSamples.Api
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_URLS=http://+:443
+      - ASPNETCORE_URLS=http://*:5003
     expose:
       - "5003"
     restart: always
